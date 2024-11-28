@@ -47,6 +47,39 @@ form.addEventListener('submit', function (e) {
     }
 });
 
+// Initialize EmailJS
+(function() {
+    emailjs.init('jRoAT7_PKXpJpQAua'); // Replace with your EmailJS public key
+})();
+
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('user-name').value;
+    const email = document.getElementById('user-email').value;
+    const message = document.getElementById('user-message').value;
+
+    const responseMessage = document.getElementById('form-response');
+
+    // Use EmailJS to send the form data
+    emailjs.send('service_aw312ca', 'template_bezuon8', {
+        user_name: name,
+        user_email: email,
+        user_message: message
+    }).then(() => {
+        responseMessage.style.display = 'block';
+        responseMessage.style.color = 'green';
+        responseMessage.textContent = 'Your message has been sent successfully!';
+        // Clear the form
+        document.getElementById('contact-form').reset();
+    }).catch((error) => {
+        responseMessage.style.display = 'block';
+        responseMessage.style.color = 'red';
+        responseMessage.textContent = 'Failed to send the message. Please try again later.';
+        console.error('EmailJS Error:', error);
+    });
+});
+
 // 3. Skill Bar Animation on Scroll into View
 const skillBars = document.querySelectorAll('.skill-bar');
 const skillSection = document.getElementById('skills');
